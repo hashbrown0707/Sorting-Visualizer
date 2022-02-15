@@ -60,31 +60,48 @@ namespace Sorting_Visualizer
 
     public class QuickSort : ISortingVisualizer
     {
+        private Graphics g;
+        private int maxHeight;
+
         public void ExecuteSort(int[] arr, Graphics graphics, int maxHeight)
         {
+            g = graphics;
+            this.maxHeight = maxHeight;
 
-
+            quicksort(arr, 0, arr.Length - 1);
         }
 
         private void quicksort(int[] arr, int start, int end)
         {
-            if (start >= end)
-                return;
-
-            int pivot = end;
-
-            for (int index = -1, current = 0; current < end; ++current)
+            if (start < end)
             {
+                int pivot = Patition(arr, start, end);
+                quicksort(arr, start, pivot -  1);
+                quicksort(arr, pivot + 1, end);
+            }
+        }
 
-                if(current <= arr[pivot])
+        private int Patition(int[] arr, int start, int end)
+        {
+            int pivot = end;
+            int index = start - 1, current = start;
+
+            for (; current < end; ++current)
+            {
+                if(arr[current] < arr[pivot])
                 {
                     ++index;
                     Utility.Swap(arr, index, current);
+                    Utility.DrawBar(g, current, arr[current], maxHeight);
+                    Utility.DrawBar(g, index, arr[index], maxHeight);
                 }
             }
 
-            quicksort(arr, 0, pivot - 1);
-            quicksort(arr, pivot + 1, end);
+            ++index;
+            Utility.Swap(arr, index, pivot);
+            Utility.DrawBar(g, pivot, arr[pivot], maxHeight);
+            Utility.DrawBar(g, index, arr[index], maxHeight);
+            return index;
         }
     }
 }

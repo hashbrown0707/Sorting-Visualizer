@@ -52,6 +52,12 @@ namespace Sorting_Visualizer
         {
             UpdateState(ref sorting, (SortingType)comboBox1.SelectedIndex);
             sorting.ExecuteSort(array, graphics, panel1.Height);
+
+            if (Utility.IsSorted(array))
+                label1.Text = "yes";
+            else
+                label1.Text = "no";
+
         }
 
         private void UpdateState(ref ISortingVisualizer obj, SortingType state)
