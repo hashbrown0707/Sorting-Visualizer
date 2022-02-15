@@ -10,6 +10,7 @@ namespace Sorting_Visualizer
     public enum SortingType
     {
         Bubble,
+        Selection,
         Insertion,
         Quick
     }
@@ -34,26 +35,57 @@ namespace Sorting_Visualizer
                         graphics.DrawBar(j, arr[j], maxHeight);
                         graphics.DrawBar(j + 1, arr[j + 1], maxHeight);
                     }
+        }
+    }
 
+    public class SelectionSort : ISortingVisualizer
+    {
+        public void ExecuteSort(int[] arr, Graphics graphics, int maxHeight)
+        {
+            if (arr.IsSorted())
+                return;
 
+            int size = arr.Length;
+
+            for (int i = 0; i < size; ++i)
+                for (int j = i + 1; j < size; ++j)
+                    if (arr[i] > arr[j])
+                    {
+                        Utility.Swap(arr, i, j);
+                        graphics.DrawBar(i, arr[i], maxHeight);
+                        graphics.DrawBar(j, arr[j], maxHeight);
+                    }
         }
     }
 
     public class QuickSort : ISortingVisualizer
     {
-
         public void ExecuteSort(int[] arr, Graphics graphics, int maxHeight)
         {
-            for (int i = 0; i < arr.Length; ++i)
-                for (int j = i + 1; j < arr.Length; ++j)
-                    if (arr[i] > arr[j])
-                    {
-                        arr.Swap(i, j);
-                        graphics.DrawBar(i, arr[i], maxHeight);
-                        graphics.DrawBar(j, arr[j], maxHeight);
-                    }
+
+
         }
 
+        private void quicksort(int[] arr, int start, int end)
+        {
+            if (start >= end)
+                return;
+
+            int pivot = end;
+
+            for (int index = -1, current = 0; current < end; ++current)
+            {
+
+                if(current <= arr[pivot])
+                {
+                    ++index;
+                    Utility.Swap(arr, index, current);
+                }
+            }
+
+            quicksort(arr, 0, pivot - 1);
+            quicksort(arr, pivot + 1, end);
+        }
     }
 }
 

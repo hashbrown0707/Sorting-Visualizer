@@ -61,6 +61,9 @@ namespace Sorting_Visualizer
                 case SortingType.Bubble:
                     obj = new BubbleSort();
                     break;
+                case SortingType.Selection:
+                    obj = new SelectionSort();
+                    break;
                 case SortingType.Quick:
                     obj = new QuickSort();
                     break;
