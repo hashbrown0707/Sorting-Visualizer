@@ -58,6 +58,27 @@ namespace Sorting_Visualizer
         }
     }
 
+    public class InsertionSort : ISortingVisualizer
+    {
+        public void ExecuteSort(int[] arr, Graphics graphics, int maxHeight)
+        {
+            for (int i = 1; i < arr.Length; ++i)
+            {
+                for (int j = i; j > 0; --j)
+                {
+                    if (arr[j] < arr[j - 1])
+                    {
+                        Utility.Swap(arr, j, j - 1);
+                        Utility.DrawBar(graphics, j, arr[j], maxHeight);
+                        Utility.DrawBar(graphics, j - 1, arr[j - 1], maxHeight);
+                    }
+                    else
+                        break;
+                }
+            }
+        }
+    }
+
     public class QuickSort : ISortingVisualizer
     {
         private Graphics g;

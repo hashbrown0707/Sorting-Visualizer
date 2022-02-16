@@ -70,6 +70,9 @@ namespace Sorting_Visualizer
                 case SortingType.Selection:
                     obj = new SelectionSort();
                     break;
+                case SortingType.Insertion:
+                    obj = new InsertionSort();
+                    break;
                 case SortingType.Quick:
                     obj = new QuickSort();
                     break;
