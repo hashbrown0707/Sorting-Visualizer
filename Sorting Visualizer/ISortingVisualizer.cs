@@ -12,7 +12,9 @@ namespace Sorting_Visualizer
         Bubble,
         Selection,
         Insertion,
-        Quick
+        Shell,
+        Quick,
+        Merge
     }
 
     public interface ISortingVisualizer
@@ -51,7 +53,7 @@ namespace Sorting_Visualizer
                 for (int j = i + 1; j < size; ++j)
                     if (arr[i] > arr[j])
                     {
-                        Utility.Swap(arr, i, j);
+                        arr.Swap(i, j);
                         graphics.DrawBar(i, arr[i], maxHeight);
                         graphics.DrawBar(j, arr[j], maxHeight);
                     }
@@ -62,18 +64,51 @@ namespace Sorting_Visualizer
     {
         public void ExecuteSort(int[] arr, Graphics graphics, int maxHeight)
         {
+            if (arr.IsSorted())
+                return;
+
             for (int i = 1; i < arr.Length; ++i)
             {
                 for (int j = i; j > 0; --j)
                 {
                     if (arr[j] < arr[j - 1])
                     {
-                        Utility.Swap(arr, j, j - 1);
-                        Utility.DrawBar(graphics, j, arr[j], maxHeight);
-                        Utility.DrawBar(graphics, j - 1, arr[j - 1], maxHeight);
+                        arr.Swap(j, j - 1);
+                        graphics.DrawBar(j, arr[j], maxHeight);
+                        graphics.DrawBar(j - 1, arr[j - 1], maxHeight);
                     }
                     else
                         break;
+                }
+            }
+        }
+    }
+
+    public class ShellSort : ISortingVisualizer
+    {
+        public void ExecuteSort(int[] arr, Graphics graphics, int maxHeight)
+        {
+            if (arr.IsSorted())
+                return;
+
+            for (int gap = arr.Length / 2; gap > 0; gap /= 2)    //算gap
+            {
+                for (int i = 0; i < gap; ++i)                                       //for每個gap組成的集合的開頭
+                {
+                    for (int j = i; j < arr.Length; j += gap)               //抓出那個gap集合的所有數字
+                    {
+                        for (int k = j - gap; k >= i; k -= gap)             //進行InsertionSort
+                        {
+                            if (arr[k] > arr[k + gap])
+                            {
+                                arr.Swap(k, k + gap);
+                                graphics.DrawBar(k, arr[k], maxHeight);
+                                graphics.DrawBar(k + gap, arr[k + gap], maxHeight);
+                            }
+                            else
+                                break;
+                        }
+                    }
                 }
             }
         }
@@ -86,6 +121,9 @@ namespace Sorting_Visualizer
 
         public void ExecuteSort(int[] arr, Graphics graphics, int maxHeight)
         {
+            if (arr.IsSorted())
+                return;
+
             g = graphics;
             this.maxHeight = maxHeight;
 
@@ -112,19 +150,30 @@ namespace Sorting_Visualizer
                 if(arr[current] < arr[pivot])
                 {
                     ++index;
-                    Utility.Swap(arr, index, current);
-                    Utility.DrawBar(g, current, arr[current], maxHeight);
-                    Utility.DrawBar(g, index, arr[index], maxHeight);
+                    arr.Swap(index, current);
+                    g.DrawBar(current, arr[current], maxHeight);
+                    g.DrawBar(index, arr[index], maxHeight);
                 }
             }
 
             ++index;
-            Utility.Swap(arr, index, pivot);
-            Utility.DrawBar(g, pivot, arr[pivot], maxHeight);
-            Utility.DrawBar(g, index, arr[index], maxHeight);
+            arr.Swap(index, pivot);
+            g.DrawBar(pivot, arr[pivot], maxHeight);
+            g.DrawBar(index, arr[index], maxHeight);
             return index;
         }
     }
+
+    public class MergeSort : ISortingVisualizer
+    {
+        public void ExecuteSort(int[] arr, Graphics graphics, int maxHeight)
+        {
+            if (arr.IsSorted())
+                return;
+
+        }
+    }
+
 }
 
 public static class Utility

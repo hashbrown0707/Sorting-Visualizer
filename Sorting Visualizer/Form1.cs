@@ -53,7 +53,7 @@ namespace Sorting_Visualizer
             UpdateState(ref sorting, (SortingType)comboBox1.SelectedIndex);
             sorting.ExecuteSort(array, graphics, panel1.Height);
 
-            if (Utility.IsSorted(array))
+            if (array.IsSorted())
                 label1.Text = "yes";
             else
                 label1.Text = "no";
@@ -75,6 +75,9 @@ namespace Sorting_Visualizer
                     break;
                 case SortingType.Quick:
                     obj = new QuickSort();
+                    break;
+                case SortingType.Shell:
+                    obj = new ShellSort();
                     break;
                 default:
                     throw new ArgumentNullException("Combobox can't be null.");
